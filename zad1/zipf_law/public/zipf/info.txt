@@ -1,2 +1,3 @@
 2855310 differend words in dutch wikipedia
 99372462 total words in dutch wikipedia
+73464 words needed to understand 0.9000004246658979 of language
