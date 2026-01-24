@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import Select from "./Select";
 import { DETERMINES, ADJECTIVES, NOUNS } from "../data/words";
 
-const NPBuilder = ({ config, setConfig }) => {
+const NPBuilder = ({ config, setConfig, freqColor }) => {
   const buttonBase = "px-3 py-1.5 text-sm rounded-md transition-all";
   const activeBtn = "bg-slate-800 text-white font-bold shadow-md";
   const inactiveBtn = "bg-slate-100 text-slate-600 hover:bg-slate-200";
@@ -14,17 +14,15 @@ const NPBuilder = ({ config, setConfig }) => {
     <div className="flex flex-col gap-4">
       <div className="flex gap-2 p-1 bg-slate-100 rounded-lg">
         <button
-          className={`${buttonBase} flex-1 ${
-            config.type === "pronoun" ? activeBtn : inactiveBtn
-          }`}
+          className={`${buttonBase} flex-1 ${config.type === "pronoun" ? activeBtn : inactiveBtn
+            }`}
           onClick={() => setConfig({ ...config, type: "pronoun" })}
         >
           Zaimek
         </button>
         <button
-          className={`${buttonBase} flex-1 ${
-            config.type === "noun" ? activeBtn : inactiveBtn
-          }`}
+          className={`${buttonBase} flex-1 ${config.type === "noun" ? activeBtn : inactiveBtn
+            }`}
           onClick={() => setConfig({ ...config, type: "noun" })}
         >
           Rzeczownik
@@ -75,19 +73,32 @@ const NPBuilder = ({ config, setConfig }) => {
               />
             )}
             {config.variant === "adj+noun" && (
+              <div
+                className={`p-2 rounded-lg border-2 border-solid ${freqColor || "border-transparent"
+                  }`}
+              >
+                <Select
+                  label="Przymiotnik"
+                  value={config.adj}
+                  options={sortedAdjectives}
+                  onChange={(v) => setConfig({ ...config, adj: v })}
+                />
+                <Select
+                  label="Rzeczownik"
+                  value={config.noun}
+                  options={sortedNouns}
+                  onChange={(v) => setConfig({ ...config, noun: v })}
+                />
+              </div>
+            )}
+            {config.variant !== "adj+noun" && (
               <Select
-                label="Przymiotnik"
-                value={config.adj}
-                options={sortedAdjectives}
-                onChange={(v) => setConfig({ ...config, adj: v })}
+                label="Rzeczownik"
+                value={config.noun}
+                options={sortedNouns}
+                onChange={(v) => setConfig({ ...config, noun: v })}
               />
             )}
-            <Select
-              label="Rzeczownik"
-              value={config.noun}
-              options={sortedNouns}
-              onChange={(v) => setConfig({ ...config, noun: v })}
-            />
             <Select
               label="Liczba"
               value={config.number}

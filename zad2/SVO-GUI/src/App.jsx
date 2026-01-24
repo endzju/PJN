@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./App.css";
 import { buildNounPhrase, conjugateVerb } from "./data/grammar";
+import wordData from "./data/data.json";
 import Section from "./components/Section";
 import NPBuilder from "./components/NPBuilder";
 import Select from "./components/Select";
@@ -38,6 +39,24 @@ function App() {
 
   const [sentence, setSentence] = useState("");
 
+  const getFrequencyColor = (type, w1, w2) => {
+    if (!w1 || !w2) return "";
+    const key = `${w1.toLowerCase()}-${w2.toLowerCase()}`;
+    const count = wordData[type]?.[key] || 0;
+
+    if (count === 0) return "border-red-500";
+    if (count === 1) return "border-yellow-400";
+    if (count <= 10) return "border-green-500";
+    return "border-blue-600";
+  };
+
+  const [colors, setColors] = useState({
+    subjAdj: "",
+    subjVerb: "",
+    verbObj: "",
+    objAdj: "",
+  });
+
   useEffect(() => {
     const subjPhrase = buildNounPhrase(subject);
     const objPhrase = buildNounPhrase(object);
@@ -49,6 +68,32 @@ function App() {
       verb.modal,
       subjPhrase
     );
+
+    // Calculate Frequencies
+    const newColors = {
+      subjAdj: "",
+      subjVerb: "",
+      verbObj: "",
+      objAdj: ""
+    };
+
+    // 1. Subject Adj-Noun
+    if (subject.variant === "adj+noun") {
+      newColors.subjAdj = getFrequencyColor("adj-noun", subject.adj, subject.noun);
+    }
+
+    // 2. Subj-Verb (Noun + Verb)
+    newColors.subjVerb = getFrequencyColor("subj-verb", subject.noun, verb.lex);
+
+    // 3. Verb-Obj (Verb + Noun)
+    newColors.verbObj = getFrequencyColor("verb-obj", verb.lex, object.noun);
+
+    // 4. Object Adj-Noun
+    if (object.variant === "adj+noun") {
+      newColors.objAdj = getFrequencyColor("adj-noun", object.adj, object.noun);
+    }
+
+    setColors(newColors);
 
     let finalSentence = "";
 
@@ -84,12 +129,13 @@ function App() {
           title="1. Podmiot (Subject)"
           color="border-orange-600 text-orange-600"
         >
-          <NPBuilder config={subject} setConfig={setSubject} label="Podmiot" />
+          <NPBuilder config={subject} setConfig={setSubject} label="Podmiot" freqColor={colors.subjAdj} />
         </Section>
 
         <Section
           title="2. Orzeczenie (Verb)"
           color="border-sky-500 text-sky-500"
+          freqColor={colors.subjVerb}
         >
           <Select
             label="Tryb"
@@ -141,11 +187,13 @@ function App() {
         <Section
           title="3. Dopełnienie (Object)"
           color="border-green-500 text-green-500"
+          freqColor={colors.verbObj}
         >
           <NPBuilder
             config={object}
             setConfig={setObject}
             label="Dopełnienie"
+            freqColor={colors.objAdj}
           />
         </Section>
       </div>
