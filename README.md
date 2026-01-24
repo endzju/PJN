@@ -42,3 +42,27 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    npm run dev
    ```
+
+## Project Descriptions
+
+
+### 2. SVO Sentence Builder (zad2)
+An interactive Sentence-Verb-Object (SVO) sentence constructor.
+- Build sentences by selecting Subject, Verb, and Object.
+- Handles grammar rules (conjugations, pluralization, determiners).
+- **Integrated Frequency Checking**:
+    - As you build sentences, the application checks if your word pairs (Subject-Verb, Verb-Object, Adjective-Noun) appear in a real-world corpus (logic from zad3). For Subject-Verb and Verb-Object pairs, border of the section of the second one changes its color, for Adjective-Noun pairs, border shows when the option is selected.
+    - **Color Legend**:
+      - <span style="color:red">**Red**</span>: Never occurs (0).
+      - <span style="color:orange">**Yellow**</span>: Single occurrence (1).
+       - <span style="color:green">**Green**</span>: Few occurrences (2-10).
+      - <span style="color:blue">**Blue**</span>: Common collocation (>10).
+
+### 3. Collocation Frequency Checker (zad3)
+A tool for checking word collocation frequencies in english language based on a corpus from 2024.
+- Analyze pairs: Subject-Verb, Verb-Object, Adjective-Noun.
+- **Color Legend**:
+    - <span style="color:red">**Red**</span>: Never occurs (0).
+    - <span style="color:orange">**Yellow**</span>: Single occurrence (1).
+    - <span style="color:green">**Green**</span>: Few occurrences (2-10).
+    - <span style="color:blue">**Blue**</span>: Common collocation (>10).
