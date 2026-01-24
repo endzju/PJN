@@ -45,6 +45,11 @@ This is an example of how to list things you need to use the software and how to
 
 ## Project Descriptions
 
+### 1. Zipf Law in Danish (zad1)
+- **Zipf's Law in Danish**: Zipf's law analysis for the most frequently occurring words in Danish.
+- **The Core of Danish**: A statistical overview of the most essential words and their total occurrences within the corpus.
+- **90% Comprehension Threshold**: How many words is required to understand 90% of the Danish language.
+- **Most Frequent Danish Nouns**
 
 ### 2. SVO Sentence Builder (zad2)
 An interactive Sentence-Verb-Object (SVO) sentence constructor.
